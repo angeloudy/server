@@ -943,6 +943,11 @@ int field_conv_incompatible(Field *to, Field *from)
     my_decimal buff;
     return to->store_decimal(from->val_decimal(&buff));
   }
+  if (from->type() == MYSQL_TYPE_TIMESTAMP && to->type() == MYSQL_TYPE_TIMESTAMP)
+  {
+    copy_timestamp_fields(from, to);
+    return 0;
+  }
   if (from->cmp_type() == TIME_RESULT)
   {
     MYSQL_TIME ltime;
