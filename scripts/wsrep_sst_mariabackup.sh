@@ -388,7 +388,7 @@ get_stream()
 get_proc()
 {
     set +e
-    nproc=$(grep -c processor /proc/cpuinfo)
+    nproc=$(dmidecode -t processor |grep "Thread Count"|cut -d":" -f2|awk '{s+=$1} END {print s}')
     [[ -z $nproc || $nproc -eq 0 ]] && nproc=1
     set -e
 }
